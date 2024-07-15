@@ -1,0 +1,75 @@
+%! Author = smen851
+%! Date = 11/07/2024
+
+% Preamble
+
+\documentclass[11pt, a4paper]{scrartcl}
+
+% Packages
+\usepackage{amsmath}
+% lorem package is used to generate random text for testing
+\usepackage{lipsum}
+\usepackage{geometry}
+\geometry{a4paper, total={170mm,257mm}, left=25mm, right=25mm, top=10mm, bottom=25mm}
+%%Bibliography
+
+
+% Title
+\title{Dynamic Antenna Pattern and SAR Performances: \\Notes on Methods and Implementation}
+\author{\texttt{Simone Mencarelli}}
+\date{\small{\texttt{July 2024}}}
+% Document
+\begin{document}
+    \maketitle
+
+
+    \section{Antenna Model}
+    \label{sec:antenna_model}
+    Assuming the SAR antenna is a \emph{ReflectArray}~(RA), e.g., like the JPL radar~\cite{swot}.
+    The conformal surface (of the deployable structure) is modeled as an array of \emph{atomic} re-readiating elements.
+    For the purpose of this model the implementation of the atomic element is not relevant, and we will be concerned only
+    with the surface impedance properties of each cell.
+    Summarizing~\cite{MetaTutorialLiu2023}, with a variable local reactive surface impedance, the reflection pattern can
+    be shaped and steered in directions different from the specular one.
+    This property of RA (and generally of meta-surfaces) is called \emph{anomalous reflection} and can be used, for example, to approximate the reflection properties
+    of a parabolic reflector using a flat surface~\cite{rapozar}; or to shape the far field pattern~\cite{Guarrielllo} of a reflector antenna.
+    In practice, the surface impedance modulation, is obtained varying some physical parameters of the atomic element
+    like a printed patch size, or the distance and thickness of a series of printed concentric rings or squared rings;
+    or again, any structure exhibiting some sort of resonant behavior.
+    Examples in literature relevant to flown or hypothetical space missions include elements of the square patch
+    type~\cite{swot,marco,isara}, or phoenix cells~\cite{Guarrielllo,secondphoenix}.
+    The latter exibiting a \emph{phoenix rebirth} property, meaning that the shape of the elements is similar for
+    relative small reflection phase--shift differences also at the 2$\pi$--0 transition in a circular fashion.
+
+    \subsection{Physical-Optics Conformal Reflectarray Model}
+    \label{subsec:physical_optics_conformal_reflectarray_model}
+    pippo~\cite{PradoCrosspolar2017}.
+
+    \subsection{Deformation And Dynamic Antenna Pattern}
+    \label{subsec:deformation_model}
+
+    \subsection{Symmetries}
+    \label{subsec:symmetries}
+
+
+    \section{SAR Model}
+    \label{sec:sar_model}
+
+    \subsection{Geometrical and Stationary Phase Transformations}
+    \label{subsec:transformations}
+
+    \subsection{Ambiguity, SNR, and Pd with Dynamic Antenna Pattern}
+    \label{subsec:ambiguity_snr_pd_with_dynamic_antenna_pattern}
+
+    \subsection{Unambiguous Mode Design Point}
+    \label{subsec:unambiguous_mode_design_point}
+
+    \subsection{Ambiguous Mode Design Point}
+    \label{subsec:ambiguous_mode_design_point}
+
+    %% Bibliography
+    \bibliographystyle{ieeetr}
+    \bibliography{../src/main.bib}
+
+
+\end{document}
