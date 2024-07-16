@@ -40,12 +40,6 @@
 % Document
 \begin{document}
     \maketitle
-
-    textwidth in pt: \the\textwidth \\
-    textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}\\
-    textwidth in inch: \printinunitsof{in}\prntlen{\textwidth}\\
-
-
     \section{Antenna Model}
     \label{sec:antenna_model}
     Assuming the SAR antenna is a \emph{ReflectArray}~(RA), e.g., like the JPL radar~\cite{swot}.
@@ -138,7 +132,7 @@
     Cell origin deformation vector is computed as the average of the deformation vectors of the four corners of the cell.
     The position of each reflectarray cell is then shifted by summing the averaged deformation vector and rotated
     according to an ortho-normal basis, obtained by averaging and Gram-Schmidt orthogonalization of the deformed mesh
-    cell edge vectors.
+    cell edge vectors (the mechanical simulation mesh uses 4-points cells already the size of a RA atom).
     The far field is recomputed as in~\sect{subsec:physical_optics_conformal_reflectarray_model} with the updated cell
     positions, keeping the same surface impedance profile $\mathbf{\sigma}$ required for collimation in the nominal state.
     \begin{figure}[!bt]
@@ -152,7 +146,11 @@
 
     \subsection{Symmetries}
     \label{subsec:symmetries}
-
+    \begin{figure}[!t]
+        \includegraphics[width=\textwidth]{geometrydef}
+        \caption{Reflectarray geometry under deformation( the deformation is exaggerated for visualization purposes.)}
+        \label{fig:radef}
+    \end{figure}
 
     \section{SAR Model}
     \label{sec:sar_model}
@@ -172,6 +170,10 @@
 %% Bibliography
     \bibliographystyle{ieeetr}
     \bibliography{../src/main.bib}
+
+    textwidth in pt: \the\textwidth \\
+    textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}\\
+    textwidth in inch: \printinunitsof{in}\prntlen{\textwidth}\\
 
 
 \end{document}
