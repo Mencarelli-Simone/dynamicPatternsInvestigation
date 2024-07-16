@@ -6,12 +6,31 @@
 \documentclass[11pt, a4paper]{scrartcl}
 
 % Packages
+
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{pgfplots}
 \usepackage{amsmath}
 % lorem package is used to generate random text for testing
 \usepackage{lipsum}
+\usepackage{bold-extra}
 \usepackage{geometry}
+\usepackage{import}
+\usepackage{graphicx}
+\usepackage{layouts}
+\usepackage{caption}
+\captionsetup[figure]{name={Fig.}}
+
+
 \geometry{a4paper, total={170mm,257mm}, left=25mm, right=25mm, top=10mm, bottom=25mm}
-%%Bibliography
+%%Macros
+\graphicspath{ {../src/figures/} }
+\newcommand{\sect}[1]{Section~\ref{#1}}
+\newcommand{\degrees}{\ensuremath{^\circ}}
+\renewcommand{\figurename}{Fig.}
+% workaround for pgfplots
+\def\mathdefault#1{#1}
 
 
 % Title
@@ -21,6 +40,10 @@
 % Document
 \begin{document}
     \maketitle
+
+    textwidth in pt: \the\textwidth \\
+    textwidth in cm: \printinunitsof{cm}\prntlen{\textwidth}\\
+    textwidth in inch: \printinunitsof{in}\prntlen{\textwidth}\\
 
 
     \section{Antenna Model}
@@ -40,13 +63,92 @@
     type~\cite{swot,marco,isara}, or phoenix cells~\cite{Guarrielllo,secondphoenix}.
     The latter exibiting a \emph{phoenix rebirth} property, meaning that the shape of the elements is similar for
     relative small reflection phase--shift differences also at the 2$\pi$--0 transition in a circular fashion.
+    Moreover, phoenix cells offer more degrees of freedom, possibly allowing for better optimization opportunities.
+    Other RA cells with a high number of degrees of freedom are possible exploiting complex geometries or multi-layer structures
+    to improve specific aspects like the cross--polarization reflection coefficient, e.g.~\cite{PradoCrosspolar2017}.
+    RA are, in general, designed under the so-called \emph{Local Periodicity Approximation} (LPA), i.e., the individual
+    atoms reflection properties are characterised in the specular reflection direction assuming a periodic surface made
+    of identical elements; it follows that the spatial sampling of the surface has to be smaller or equal to half a
+    wavelength ($\lambda/2$) to avoid multimodal reflections~\cite{MetaTutorialLiu2023}.
+    When modulating (and truncating) the surface impedance of the reflector, in practice, the periodicity is broken and multiple
+    reflection mechanisms are allowed~\cite{Esposti2022,NayeriRAbook}.
+    It is difficult, however, to predict the exact multi-modal reflection pattern unless a full-wave simulation is
+    performed which might be very time and memory--consuming for such electrically large structures.
+    For this reason, the classical design approach involves designing the RA cells under the LPA and then validating the
+    design with a full-wave simulation or measurements~\cite{NayeriRAbook,rapozar,PradoDatabase2022}.
+    To control unwanted reflections, the reflector is illuminated with some taper towards the edges to reduce the contribution
+    of edge diffraction and the aperiodicity caused by fast-varying impedance profiles~\cite{NayeriRAbook}.
+    To understand the effects of mechanical deformations on the antenna pattern, only the anomalous reflection
+    is considered assuming an ideal RA with lossless phase--shifting elements.
+    Furthermore, especially for a large reflector with small f/D ratios, the anomalous reflection will be
+    particularly sensitive to shape variations of the surface due to the relative added phase-delay.
+    Also, it makes sense to consider a uniform illumination of the reflecting surface to account for the worst-case scenario
+    and fully characterise the effects of any deformation.
+    The physical-optics model to compute the (anomalous reflection component of the) antenna pattern is described in~\sect{subsec:physical_optics_conformal_reflectarray_model}.
+    The deformation model and the resulting patterns are described in~\sect{subsec:deformation_model}.
+    Some considerations on the symmetries of the antenna pattern, to reduce the computation time, are given in~\sect{subsec:symmetries}.
 
     \subsection{Physical-Optics Conformal Reflectarray Model}
     \label{subsec:physical_optics_conformal_reflectarray_model}
-    pippo~\cite{PradoCrosspolar2017}.
+    The integration procedure is the same of~\cite{PradoCrosspolar2017}.\\
+    In short:\\
+    \noindent\rule{\textwidth}{0.4pt}
+    \begin{ttfamily}
+        \small
+        Assuming every cell is a $\lambda/2$ square uniform aperture:
+        \begin{enumerate}
+            \item Compute Tangential E-field illumination.
+            \item \textbf{For} every cell:
+            \begin{enumerate}
+                \item Compute $\mathbf{E}_{r}^{x,y} = \mathbf{\sigma} \mathbf{E}_{i}^{x,y}$.
+                \item Compute Reflected field $\mathbf{E}_{r}$-$\mathbf{H}_{r}$ (elements LCS):\\
+                $\mathbf{E}_{r} \cdot \mathbf{k} = 0$ ; $\mathbf{H}_{r} = \frac{(\mathbf{k} \times \mathbf{E}_{r})}{\eta}$.
+                \item Compute element pattern assuming magnetic and electric current \\excitations:
+                ${E}_{r}^{x,y}$ and ${H}_{r}^{x,y}$.
+            \end{enumerate}
+            \item Conformal Array summation (elemental pattern rotation, displacement and sum).
+        \end{enumerate}
+    \end{ttfamily}
+    * to be expanded *\\
+    \noindent\rule{\textwidth}{0.4pt}
+
+
+    \begin{figure}[!t]
+        \includegraphics[width=\textwidth]{rageometry}
+        \caption{Reflectarray geometry and required phase shift for broadside ($\mathbf{\hat{z}}$) collimation.
+        The feed is suspended 1 m above the reflector center; the overall size for the reflector is 2~m in
+        length and 0.3~m in width, the surface is cylindrical with cross--section corresponding to a 90\degrees
+        subtended angle.}
+        \label{fig:rageom}
+    \end{figure}
+
+    \begin{figure}[!bt]
+        \centering
+        \import{./figures}{linear_pattern.pgf}
+        \caption{Far-field pattern for uniformly illuminated reflectarray in the nominal state.
+            Elevation coordinate limited to~$\theta \in [0,20]$\degrees
+        }
+        \label{fig:pattern}
+    \end{figure}
 
     \subsection{Deformation And Dynamic Antenna Pattern}
     \label{subsec:deformation_model}
+    The deformation vector is retrieved from the mechanical modal analysis and scaled according to the deformation state
+    identified by the oscillation phase $\varphi$ and the maximum amplitude.
+    Cell origin deformation vector is computed as the average of the deformation vectors of the four corners of the cell.
+    The position of each reflectarray cell is then shifted by summing the averaged deformation vector and rotated
+    according to an ortho-normal basis, obtained by averaging and Gram-Schmidt orthogonalization of the deformed mesh
+    cell edge vectors.
+    The far field is recomputed as in~\sect{subsec:physical_optics_conformal_reflectarray_model} with the updated cell
+    positions, keeping the same surface impedance profile $\mathbf{\sigma}$ required for collimation in the nominal state.
+    \begin{figure}[!bt]
+        \centering
+        \import{./figures}{deform_pattern.pgf}
+        \caption{Far-field pattern for uniformly illuminated reflectarray in the extreme deformed state, i.e.,
+            amplitude scaling~=~1, oscillation phase~=~90\degrees.
+        Elevation coordinate limited to~$\theta \in [0,20]$\degrees}
+        \label{fig:deformpattern}
+    \end{figure}
 
     \subsection{Symmetries}
     \label{subsec:symmetries}
@@ -67,7 +169,7 @@
     \subsection{Ambiguous Mode Design Point}
     \label{subsec:ambiguous_mode_design_point}
 
-    %% Bibliography
+%% Bibliography
     \bibliographystyle{ieeetr}
     \bibliography{../src/main.bib}
 
