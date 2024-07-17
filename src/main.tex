@@ -40,6 +40,8 @@
 % Document
 \begin{document}
     \maketitle
+
+
     \section{Antenna Model}
     \label{sec:antenna_model}
     Assuming the SAR antenna is a \emph{ReflectArray}~(RA), e.g., like the JPL radar~\cite{swot}.
@@ -120,7 +122,7 @@
         \centering
         \import{./figures}{linear_pattern.pgf}
         \caption{Far-field pattern for uniformly illuminated reflectarray in the nominal state.
-            Elevation coordinate limited to~$\theta \in [0,20]$\degrees
+        Elevation coordinate limited to~$\theta \in [0,20]$\degrees
         }
         \label{fig:pattern}
     \end{figure}
@@ -135,13 +137,25 @@
     cell edge vectors (the mechanical simulation mesh uses 4-points cells already the size of a RA atom).
     The far field is recomputed as in~\sect{subsec:physical_optics_conformal_reflectarray_model} with the updated cell
     positions, keeping the same surface impedance profile $\mathbf{\sigma}$ required for collimation in the nominal state.
+
     \begin{figure}[!bt]
-        \centering
-        \import{./figures}{deform_pattern.pgf}
-        \caption{Far-field pattern for uniformly illuminated reflectarray in the extreme deformed state, i.e.,
-            amplitude scaling~=~1, oscillation phase~=~90\degrees.
-        Elevation coordinate limited to~$\theta \in [0,20]$\degrees}
-        \label{fig:deformpattern}
+        \begin{subfigure}
+            \centering
+            \import{./figures}{deform_pattern_neg.pgf}
+            \caption{Far-field pattern for uniformly illuminated reflectarray in the extreme deformed state (negative deformation), i.e.,
+                amplitude scaling~=~1, oscillation phase~=~--90\degrees.
+                Elevation coordinate limited to~$\theta \in [0,20]$\degrees}
+            \label{fig:deformpatternneg}
+        \end{subfigure}
+
+        \begin{subfigure}
+            \centering
+            \import{./figures}{deform_pattern.pgf}
+            \caption{Far-field pattern for uniformly illuminated reflectarray in the extreme deformed state, i.e.,
+                amplitude scaling~=~1, oscillation phase~=~90\degrees.
+                Elevation coordinate limited to~$\theta \in [0,20]$\degrees}
+            \label{fig:deformpattern}
+        \end{subfigure}
     \end{figure}
 
     \subsection{Symmetries}
@@ -152,21 +166,32 @@
         \label{fig:radef}
     \end{figure}
 
+
     \section{SAR Model}
     \label{sec:sar_model}
 
     \subsection{Geometrical and Stationary Phase Transformations}
     \label{subsec:transformations}
+    write the relevant equations here
 
     \subsection{Ambiguity, SNR, and Pd with Dynamic Antenna Pattern}
     \label{subsec:ambiguity_snr_pd_with_dynamic_antenna_pattern}
+    equations and plots of the range-Doppler space
 
     \subsection{Unambiguous Mode Design Point}
     \label{subsec:unambiguous_mode_design_point}
+    algorithm and plots of the results
 
     \subsection{Ambiguous Mode Design Point}
     \label{subsec:ambiguous_mode_design_point}
+    algorithm and plots of the results
 
+    \subsection{Design Space Mapping}
+    \label{subsec:design_space_mapping}
+
+    \subsection{Worsening due to oscillation metrics}
+    \label{subsec:worsening_due_to_oscillation_metrics}
+    TBD
 %% Bibliography
     \bibliographystyle{ieeetr}
     \bibliography{../src/main.bib}

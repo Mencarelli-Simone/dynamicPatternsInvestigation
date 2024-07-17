@@ -67,7 +67,7 @@
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsys@transformshift{0.520000in}{0.566667in}%
-\pgftext[left,bottom]{\includegraphics[interpolate=true,width=2.190000in,height=2.190000in]{linear_pattern-img0.png}}%
+\pgftext[left,bottom]{\includegraphics[interpolate=true,width=2.190000in,height=2.190000in]{deform_pattern_neg-img0.png}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -401,7 +401,7 @@
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsys@transformshift{3.270000in}{0.566667in}%
-\pgftext[left,bottom]{\includegraphics[interpolate=true,width=2.193333in,height=2.190000in]{linear_pattern-img1.png}}%
+\pgftext[left,bottom]{\includegraphics[interpolate=true,width=2.193333in,height=2.190000in]{deform_pattern_neg-img1.png}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -735,7 +735,7 @@
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsys@transformshift{5.710000in}{0.566667in}%
-\pgftext[left,bottom]{\includegraphics[interpolate=true,width=0.073333in,height=2.190000in]{linear_pattern-img2.png}}%
+\pgftext[left,bottom]{\includegraphics[interpolate=true,width=0.073333in,height=2.190000in]{deform_pattern_neg-img2.png}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
