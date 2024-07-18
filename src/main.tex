@@ -22,6 +22,8 @@
 \usepackage{layouts}
 \usepackage{caption}
 \captionsetup[figure]{name={Fig.}}
+\usepackage[section]{placeins}
+\usepackage{hyperref}
 
 
 \geometry{a4paper, total={170mm,257mm}, left=25mm, right=25mm, top=10mm, bottom=25mm}
@@ -110,7 +112,7 @@
     \noindent\rule{\textwidth}{0.4pt}
 
 
-    \begin{figure}[!t]
+    \begin{figure}[!tb]
         \includegraphics[width=\textwidth]{rageometry}
         \caption{Reflectarray geometry and required phase shift for broadside ($\mathbf{\hat{z}}$) collimation.
         The feed is suspended 1 m above the reflector center; the overall size for the reflector is 2~m in
@@ -119,7 +121,7 @@
         \label{fig:rageom}
     \end{figure}
 
-    \begin{figure}[!bt]
+    \begin{figure}[!hbt]
         \centering
         \import{./figures}{linear_pattern.pgf}
         \caption{Far-field pattern for uniformly illuminated reflectarray in the nominal state.
@@ -139,7 +141,7 @@
     The far field is recomputed as in~\sect{subsec:physical_optics_conformal_reflectarray_model} with the updated cell
     positions, keeping the same surface impedance profile $\mathbf{\sigma}$ required for collimation in the nominal state.
 
-    \begin{figure}[!bt]
+    \begin{figure}[!hbt]
 
         \begin{subfigure}
             \centering
@@ -162,11 +164,19 @@
 
     \subsection{Symmetries}
     \label{subsec:symmetries}
-    \begin{figure}[!t]
+    \begin{figure}[!hbt]
         \includegraphics[width=\textwidth]{geometrydef}
         \caption{Reflectarray geometry under deformation( the deformation is exaggerated for visualization purposes.)}
         \label{fig:radef}
     \end{figure}
+    The antennna pattern has an odd symmetry with respect to the oscillation phase $\varphi$ if the antenna structure is
+    symmetrical with respect to the x or y axis and the modal deformation follows the same symmetry.
+    In this case the deformation for positve and negative oscillation phases is symmetrical about the x-z plane, see Fig.~\ref{fig:radef};
+    and, as a result, the antenna pattern is oddly symmetrical about the x-z plane relatively to the oscillation phase
+    as visible in Figs.~\ref{fig:deformpattern} and~\ref{fig:deformpatternneg}.
+    If the oscillation mode doesn't have an x or y axial symmetry, or the antenna structure is not symmetrical about the
+    same plane (e.g., for the current scenatio if the feed is not on the x-z plane, see Fig.~\ref{fig:rageom}),
+    the pattern symmetry is lost.
 
 
     \section{SAR Model}
@@ -175,18 +185,110 @@
     \subsection{Geometrical and Stationary Phase Transformations}
     \label{subsec:transformations}
     write the relevant equations here
+    \begin{figure}[!htb]
+        \import{./figures}{pattern.pgf}
+        \caption{Dynamic pattern (for oscillation frequency $f_{osc}=$2.78879~Hz, scene center oscillation phase
+            $\varphi_0=0$, and relative amplitude 1) compared to the static pattern (right). In the Range-Doppler domain,
+            for a broadside incidence angle of 17.3\degrees over the full illumination cone (horizon to horizon).
+            The color scale is in dB.}
+        \label{fig:RDpattern}
+    \end{figure}
 
     \subsection{Ambiguity, SNR, and Pd with Dynamic Antenna Pattern}
     \label{subsec:ambiguity_snr_pd_with_dynamic_antenna_pattern}
     equations and plots of the range-Doppler space
+    \begin{figure}[!htb]
+        \import{./figures}{aasr_pattern.pgf}
+        \caption{Detail of the static and dynamic patterns showing the integration domain for the AASR equation, main and ambiguous
+        Doppler regions are marked by dashed lines. The color scale is in dB.
+        }
+        \label{fig:aasrpattern}
+    \end{figure}
+    \begin{figure}[!htb]
+        \import{./figures}{aasr.pgf}
+        \caption{AASR integrands (a) for initial oscillation phase $\varphi_0=0$, and computed AASR (b) for different $\varphi_0=0$ on different range cuts.
+        }
+        \label{fig:aasr}
+    \end{figure}
+    \begin{figure}[!htb]
+        \import{./figures}{rasr_pattern.pgf}
+        \caption{Detail of the static and dynamic patterns showing the integration domain for the RASR equation, main and ambiguous
+        Range regions are marked by dashed lines. The color scale is in dB.
+        }
+        \label{fig:rasrpattern}
+    \end{figure}
+    \begin{figure}[!htb]
+        \import{./figures}{rasr.pgf}
+        \caption{RASR sum contributions~(a) for initial oscillation phase $\varphi_0=0$, and computed RASR~(b) for different $\varphi_0=0$ over visible range.
+        }
+        \label{fig:rasr}
+    \end{figure}
 
     \subsection{Unambiguous Mode Design Point}
     \label{subsec:unambiguous_mode_design_point}
-    algorithm and plots of the results
+    algorithm and plots of the results\\
+    \begin{figure}[!htb]
+        \centering
+        \import{./figures}{td_diagram_unamb.pgf}
+        \caption{Unambiguous mode design point in the time diagram.
+        }
+        \label{fig:unambigmode}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \import{./figures}{results_unamb_legend.pgf}
+        \import{./figures}{results_unamb.pgf}
+        \caption{point map Unambiguous.}
+        \label{fig:unambigresult}
+    \end{figure}
+
+    \vspace{\floatsep}
+    \noindent\rule{\textwidth}{0.4pt}
+    \begin{ttfamily}
+        \small
+        Provided the maximum acceptable AASR and RASR,\\
+        After findign the visible swath from the time diagram \\(knkowing PRF, approximate incidence angle and duty cycle):
+        \begin{enumerate}
+            \item Optimize looking angle to have same SNR at the shath extremes.
+            \item Compute AASR in nominal case for a set of Doppler undersampling factors.
+            \item \textbf{OR} Optimize the Doppler undersampling factor to lower AASR to AASR$_{\text{max}}$
+            \item \textbf{IF} AASR nominal can be lowered to AASR$_{\text{max}}$
+            \begin{enumerate}
+                \item record optimal Bd
+                \item Compute AASR for dynamic pattern for a set of mechanical \\oscillation $\varphi_0$, amplitudes and frequencies.
+                \item Compute RASR in the static case
+                \item Threshold RASR to RASR$_{\text{max}}$ and record the range values exceeding the threshold.
+                \item Compute unambiguous swath
+                \item \textbf{IF} unambiguous swath > 0
+                \begin{enumerate}
+                    \item Compute RASR for dynamic pattern for a set of \\mechanical oscillation $\varphi_0$, amplitudes and frequencies.
+                \end{enumerate}
+            \end{enumerate}
+            \item compute SNR for the optimal Bd or the nominal Bd if no optimal is found
+        \end{enumerate}
+    \end{ttfamily}
+
+    * to be expanded *\\
+    \noindent\rule{\textwidth}{0.4pt}
+    \vspace{\floatsep}
 
     \subsection{Ambiguous Mode Design Point}
     \label{subsec:ambiguous_mode_design_point}
     algorithm and plots of the results
+    \begin{figure}[!htb]
+        \centering
+        \import{./figures}{td_diagram_amb.pgf}
+        \caption{Ambiguous mode design point in the time diagram.
+        }
+        \label{fig:ambigmode}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \import{./figures}{results_amb_legend.pgf}
+        \import{./figures}{results_amb.pgf}
+        \caption{point map Ship Detection.}
+        \label{fig:ambigresult}
+    \end{figure}
 
     \subsection{Design Space Mapping}
     \label{subsec:design_space_mapping}
@@ -194,6 +296,8 @@
     \subsection{Worsening due to oscillation metrics}
     \label{subsec:worsening_due_to_oscillation_metrics}
     TBD
+
+
 %% Bibliography
     \bibliographystyle{ieeetr}
     \bibliography{../src/main.bib}
