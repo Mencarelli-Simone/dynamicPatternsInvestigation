@@ -24,6 +24,7 @@
 \captionsetup[figure]{name={Fig.}}
 \usepackage[section]{placeins}
 \usepackage{hyperref}
+\usepackage{placeins}
 
 
 \geometry{a4paper, total={170mm,257mm}, left=25mm, right=25mm, top=10mm, bottom=25mm}
@@ -234,15 +235,7 @@
         }
         \label{fig:unambigmode}
     \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \import{./figures}{results_unamb_legend.pgf}
-        \import{./figures}{results_unamb.pgf}
-        \caption{point map Unambiguous.}
-        \label{fig:unambigresult}
-    \end{figure}
-
-    \vspace{\floatsep}
+    \FloatBarrier
     \noindent\rule{\textwidth}{0.4pt}
     \begin{ttfamily}
         \small
@@ -264,13 +257,20 @@
                     \item Compute RASR for dynamic pattern for a set of \\mechanical oscillation $\varphi_0$, amplitudes and frequencies.
                 \end{enumerate}
             \end{enumerate}
-            \item compute SNR for the optimal Bd or the nominal Bd if no optimal is found
+            \item compute SNR (static and dynamic) for the optimal Bd or the nominal Bd if no optimal is found
         \end{enumerate}
     \end{ttfamily}
 
     * to be expanded *\\
     \noindent\rule{\textwidth}{0.4pt}
-    \vspace{\floatsep}
+
+    \begin{figure}[!htb]
+        \centering
+        \import{./figures}{results_unamb_legend.pgf}
+        \import{./figures}{results_unamb.pgf}
+        \caption{point map Unambiguous.}
+        \label{fig:unambigresult}
+    \end{figure}
 
     \subsection{Ambiguous Mode Design Point}
     \label{subsec:ambiguous_mode_design_point}
@@ -282,6 +282,38 @@
         }
         \label{fig:ambigmode}
     \end{figure}
+
+    \FloatBarrier
+    \noindent\rule{\textwidth}{0.4pt}
+    \begin{ttfamily}
+        \small
+        Provided the maximum acceptable RASR, the minimum acceptable probability of detection Pd$_{\text{min}}$;
+        and all the radar parameters: power, bandwidth, noise figure + losses, probability of false alarm, ship area.\\
+        After findign the visible swath from the time diagram \\(knkowing PRF, approximate incidence angle and duty cycle):
+        \begin{enumerate}
+            \item Optimize looking angle to have same Pd at the shath extremes.
+            \item Compute the nominal Doppler bandwidth Bd from antenna length.
+            \item Compute RASR in nominal case.
+            \item Threshold RASR to RASR$_{\text{max}}$ and record the range values exceeding the threshold.
+            \item Compute unambiguous swath
+            \item \textbf{IF} unambiguous swath > 0
+            \begin{enumerate}
+                \item Compute RASR for dynamic pattern for a set of \\mechanical oscillation $\varphi_0$, amplitudes and frequencies.
+                \item Compute AASR static and dynamic.
+            \end{enumerate}
+            \item Compute Pd and NESZ for the nominal (static) case.
+            \item Find usable Pd swath (where Pd > Pd$_{\text{min}}$)
+            \item \textbf{IF} usable Pd swath > 0
+            \begin{enumerate}
+                \item Compute Pd and NESZ for the dynamic case (for a set of amplitudes, freq and phases).
+            \end{enumerate}
+            \item \textbf{Return} all the results
+        \end{enumerate}
+    \end{ttfamily}
+
+    * to be expanded *\\
+    \noindent\rule{\textwidth}{0.4pt}
+
     \begin{figure}[!htb]
         \centering
         \import{./figures}{results_amb_legend.pgf}
